@@ -3,11 +3,9 @@ import Thumbnail from "../models/thumbnail.js";
 //get semua thumbnail
 export const getAllThumbnail = async (req, res) => {
     try {
-        const getThumbnail = await Thumbnail.find();
-        res.json({
-            videoId: thumbnail.videoId,
-            url: thumbnail.url
-        })
+        //.select karena hanya ingin mengambil videoId dan url. tbh im just tryin but it works xD
+        const getThumbnail = await Thumbnail.find().select('-_id , videoId url');
+        res.status(200).json(getThumbnail);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -17,9 +15,11 @@ export const getAllThumbnail = async (req, res) => {
 //get detail 
 export const getDetailThumbnail = async (req, res) => {
     try {
-        // menggunakan .select agar hanya menampilkan videoId dan url. tanpa objectId document.
-        const getDetail = await Thumbnail.findOne({ videoId: req.params.id });
-        res.json(getDetail);
+        const { videoId, url } = await Thumbnail.findOne({ videoId: req.params.id });
+        res.json({
+            videoId,
+            url,
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
