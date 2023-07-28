@@ -3,7 +3,7 @@ import Product from "../models/product.js";
 export const getAllProduct = async (req, res) => {
     const { videoId } = req.params.videoId
     try {
-        const getProduct = await Product.find({ videoId });
+        const getProduct = await Product.find({ videoId: req.params.videoId });
         res.status(200).json(getProduct);
         console.log(getProduct);
     } catch (error) {
